@@ -1,19 +1,16 @@
 echo "🔍 Running pre-commit checks..."
 
-# Check if there are any staged files
-STAGED_FILES=$(git diff --cached --name-only)
-if [ -z "$STAGED_FILES" ]; then
-  echo "ℹ️  No staged files found, skipping pre-commit checks."
-  exit 0
-fi
-
-# Run lint-staged for ESLint and formatting
-npx lint-staged
-
-# Check if lint-staged passed
-if [ $? -ne 0 ]; then
-  echo "❌ ESLint checks failed. Please fix the issues and try again."
-  exit 1
+# Check if there are any staged files that lint-staged would process
+STAGED_JS_FILES=$(git diff --cached --name-only | grep -E '\.(ts|tsx|js|jsx|json|md)$' || true)
+if [ -z "$STAGED_JS_FILES" ]; then
+  echo "ℹ️  No staged files require linting, proceeding to other checks."
+else
+  # Run lint-staged for ESLint and formatting
+  npx lint-staged
+  if [ $? -ne 0 ]; then
+    echo "❌ ESLint checks failed. Please fix the issues and try again."
+    exit 1
+  fi
 fi
 
 # Get list of staged TypeScript files only
