@@ -1,5 +1,12 @@
 echo "🔍 Running pre-commit checks..."
 
+# Check if there are any staged files
+STAGED_FILES=$(git diff --cached --name-only)
+if [ -z "$STAGED_FILES" ]; then
+  echo "ℹ️  No staged files found, skipping pre-commit checks."
+  exit 0
+fi
+
 # Run lint-staged for ESLint and formatting
 npx lint-staged
 
