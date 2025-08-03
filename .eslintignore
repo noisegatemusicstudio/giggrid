@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Generated files
+dist/
+build/
+.expo/
+web-build/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Test coverage
+coverage/
+
+# Platform specific
+.DS_Store
+*.log
+
+# Submodules (handled separately)
+submodules/
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp

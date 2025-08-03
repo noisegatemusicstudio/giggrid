@@ -1,0 +1,25 @@
+{
+  "screenName": "Welcome",
+  "description": "Main welcome/landing screen for new users",
+  "priority": "high",
+  "targetPlatforms": ["ios", "android", "web"],
+  "designSystemComponents": {
+    "extractColors": true,
+    "extractTypography": true,
+    "extractSpacing": true,
+    "createReusableComponents": true
+  },
+  "uiElements": {
+    "expectedComponents": [
+      "hero-section",
+      "cta-buttons",
+      "navigation-elements",
+      "branding-elements"
+    ]
+  },
+  "testingRequirements": {
+    "unitTestCoverage": 100,
+    "integrationTestCoverage": 100,
+    "e2eTestPlatforms": ["ios", "android", "web"]
+  }
+}

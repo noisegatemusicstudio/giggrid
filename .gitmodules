@@ -1,0 +1,6 @@
+[submodule "submodules/appium-framework"]
+	path = submodules/appium-framework
+	url = https://github.com/noisegatemusicstudio/universal-appium2-framework
+[submodule "submodules/playwright-framework"]
+	path = submodules/playwright-framework
+	url = https://github.com/noisegatemusicstudio/universal-playwright-framework
