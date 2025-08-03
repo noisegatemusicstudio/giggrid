@@ -29,15 +29,15 @@ export default function App() {
         {/* Uncomment when store is ready */}
         {/* <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}> */}
-            <Stack.Navigator
-              initialRouteName="Welcome"
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              <Stack.Screen name="Welcome" component={WelcomeScreen} />
-            </Stack.Navigator>
-          {/* </PersistGate>
+        <Stack.Navigator
+          initialRouteName="Welcome"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        </Stack.Navigator>
+        {/* </PersistGate>
         </Provider> */}
       </NavigationContainer>
       <StatusBar style="auto" />

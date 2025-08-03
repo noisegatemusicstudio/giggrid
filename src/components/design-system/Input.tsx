@@ -34,25 +34,24 @@ export const Input: React.FC<InputProps> = ({
   testID,
   ...props
 }) => {
-  const containerStyle = [
+  const containerStyle: ViewStyle[] = [
     styles.container,
     fullWidth && styles.fullWidth,
     style,
-  ];
+  ].filter(Boolean) as ViewStyle[];
 
-  const inputContainerStyle = [
+  const inputContainerStyle: ViewStyle[] = [
     styles.inputContainer,
-    styles[variant],
-    styles[size],
+    styles[variant as keyof typeof styles],
     error && styles.error,
     disabled && styles.disabled,
-  ];
+  ].filter(Boolean) as ViewStyle[];
 
-  const textInputStyle = [
+  const textInputStyle: TextStyle[] = [
     styles.input,
     styles[`${size}Text` as keyof typeof styles],
     inputStyle,
-  ];
+  ].filter(Boolean) as TextStyle[];
 
   return (
     <View style={containerStyle}>
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: theme.borderRadius.base,
     overflow: 'hidden',
   },
-  
+
   // Variants
   outline: {
     borderWidth: 1,
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.gray[100],
     borderWidth: 0,
   },
-  
+
   // Sizes
   sm: {
     minHeight: 36,
@@ -110,13 +109,13 @@ const styles = StyleSheet.create({
     minHeight: 52,
     paddingHorizontal: theme.spacing[5],
   },
-  
+
   input: {
     flex: 1,
     fontFamily: theme.typography.fontFamily.regular,
     color: theme.colors.text.primary,
   },
-  
+
   // Text sizes
   smText: {
     fontSize: theme.typography.fontSize.sm,
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
   lgText: {
     fontSize: theme.typography.fontSize.lg,
   },
-  
+
   error: {
     borderColor: theme.colors.error[500],
   },

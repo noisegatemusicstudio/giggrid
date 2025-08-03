@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  
+
   // Variants
   primary: {
     backgroundColor: theme.colors.primary[500],
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   ghost: {
     backgroundColor: 'transparent',
   },
-  
+
   // Sizes
   sm: {
     paddingHorizontal: theme.spacing[3],
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing[4],
     minHeight: 52,
   },
-  
+
   // Text styles
   text: {
     fontFamily: theme.typography.fontFamily.medium,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     color: theme.colors.primary[500],
     fontSize: theme.typography.fontSize.base,
   },
-  
+
   // Size text
   smText: {
     fontSize: theme.typography.fontSize.sm,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   lgText: {
     fontSize: theme.typography.fontSize.lg,
   },
-  
+
   fullWidth: {
     width: '100%',
   },

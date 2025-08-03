@@ -63,7 +63,7 @@ export class AssetProcessor {
    */
   analyzeComponent(fileName: string, imageData?: Buffer): AssetAnalysis {
     const cleanName = this.cleanFileName(fileName);
-    
+
     // Button detection
     if (cleanName.includes('button')) {
       return {
@@ -76,7 +76,11 @@ export class AssetProcessor {
     }
 
     // Input detection
-    if (cleanName.includes('input') || cleanName.includes('field') || cleanName.includes('textbox')) {
+    if (
+      cleanName.includes('input') ||
+      cleanName.includes('field') ||
+      cleanName.includes('textbox')
+    ) {
       return {
         type: 'component',
         category: 'input',
@@ -87,7 +91,11 @@ export class AssetProcessor {
     }
 
     // Card/Container detection
-    if (cleanName.includes('card') || cleanName.includes('container') || cleanName.includes('box')) {
+    if (
+      cleanName.includes('card') ||
+      cleanName.includes('container') ||
+      cleanName.includes('box')
+    ) {
       return {
         type: 'component',
         category: 'card',
@@ -112,7 +120,7 @@ export class AssetProcessor {
   analyzeIcon(fileName: string): AssetAnalysis {
     const cleanName = this.cleanFileName(fileName);
     const category = this.determineIconCategory(cleanName);
-    
+
     return {
       type: 'icon',
       category,
@@ -153,14 +161,14 @@ export class AssetProcessor {
   private generateComponentName(fileName: string, type?: string): string {
     const parts = fileName.split(/[-_\s]/);
     const cleaned = parts.map(part => this.capitalize(part)).join('');
-    
+
     if (type) {
       const typeCapitalized = this.capitalize(type);
       if (!cleaned.includes(typeCapitalized)) {
         return `${cleaned}${typeCapitalized}`;
       }
     }
-    
+
     return cleaned;
   }
 
@@ -169,15 +177,15 @@ export class AssetProcessor {
    */
   private generateIconName(fileName: string, category: string): string {
     const cleanName = this.cleanFileName(fileName);
-    
+
     // Remove common icon suffixes
     const withoutSuffix = cleanName.replace(/(-icon|-ico|\.png|\.svg)$/i, '');
-    
+
     // Add category prefix if not present
     if (!withoutSuffix.startsWith(category + '-')) {
       return `${category}-${withoutSuffix}`;
     }
-    
+
     return withoutSuffix;
   }
 
@@ -186,12 +194,12 @@ export class AssetProcessor {
    */
   private generateAssetName(fileName: string, category: string): string {
     const cleanName = this.cleanFileName(fileName);
-    
+
     // Add category prefix if not present
     if (!cleanName.startsWith(category + '-')) {
       return `${category}-${cleanName}`;
     }
-    
+
     return cleanName;
   }
 

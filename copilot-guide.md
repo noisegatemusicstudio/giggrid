@@ -6,7 +6,7 @@ This document defines the non‑negotiable automation workflow that powers featu
 
 ---
 
-## 1  Process Overview
+## 1 Process Overview
 
 1. **Design** a screen in Uizard.
 2. **Drop assets** into `reference/<screen‑slug>/` with the following structure:
@@ -19,7 +19,7 @@ This document defines the non‑negotiable automation workflow that powers featu
    - Integrates assets into the mobile design library
    - Renames components appropriately for consistency
    - Updates design system theme if new patterns are detected
-4. A GitHub workflow (*Copilot Agent‑RN*) **auto‑generates a BDD file** ➜ opens PR `[BDD] <Screen>`.
+4. A GitHub workflow (_Copilot Agent‑RN_) **auto‑generates a BDD file** ➜ opens PR `[BDD] <Screen>`.
 5. **You review / edit / merge** the BDD PR (label `accepted-bdd`).
 6. Agent‑RN then **generates code + tests** ➜ PR `[feat] <Screen>`.
 7. **Before any commit is finalised** the following **gates must all pass and be approved by you**:
@@ -34,7 +34,7 @@ If any gate fails or if confirmation is missing the commit is aborted.
 
 ---
 
-## 2  Repository Layout
+## 2 Repository Layout
 
 ```text
 reference/
@@ -79,11 +79,12 @@ App.tsx                     # Main app entry point
 copilot_guide.md            # ← this file
 ```
 
-### 2.1  Uizard Asset Processing Workflow
+### 2.1 Uizard Asset Processing Workflow
 
 When you add new items to any `reference/<screen-slug>/` folder, the Copilot Agent will:
 
 #### **Intelligent Component Analysis**
+
 1. **Analyze** each asset to understand its purpose and design patterns
 2. **Compare** with existing design system components for reusability
 3. **Rename** appropriately using consistent naming conventions:
@@ -92,40 +93,45 @@ When you add new items to any `reference/<screen-slug>/` folder, the Copilot Age
    - `icon-user-profile.svg` → `UserProfileIcon` component
 
 #### **Smart Integration Strategy**
+
 - **Reuse Existing**: If component matches existing design system patterns
 - **Extend Variants**: Add new variants to existing components (e.g., new button style)
 - **Create New**: Only when genuinely unique functionality is required
 - **Update Theme**: Extract colors, spacing, typography from new assets
 
 #### **Mobile Design Library Updates**
+
 - **Icons**: Integrated into centralized `Icon.tsx` component with type-safe names
 - **Components**: Added as variants or new components with consistent API
 - **Assets**: Optimized and stored in appropriate directories
 - **Theme**: Updated with new design tokens extracted from assets
 
-### 2.2  Asset Naming Conventions
+### 2.2 Asset Naming Conventions
 
 The system will automatically rename assets following these patterns:
 
 #### **Components Folder**
+
 - `button-*.png` → Button component variants
-- `input-*.png` → Input component variants  
+- `input-*.png` → Input component variants
 - `card-*.png` → Card component variants
 - `modal-*.png` → Modal component variants
 
 #### **Icons Folder**
+
 - `nav-*` → Navigation icons
 - `action-*` → Action/interaction icons
 - `status-*` → Status/state icons
 - `social-*` → Social media icons
 
 #### **Assets Folder**
+
 - `bg-*` → Background assets
 - `logo-*` → Logo variations
 - `pattern-*` → Repeatable patterns
 - `graphic-*` → Decorative graphics
 
-### 2.3  Mobile Design Library
+### 2.3 Mobile Design Library
 
 The design system in `src/components/design-system/` provides reusable components that automatically inherit styling from Uizard assets:
 
@@ -137,6 +143,7 @@ The design system in `src/components/design-system/` provides reusable component
 - **index.ts**: Consolidated exports
 
 **Automatic Processing Workflow:**
+
 1. **Asset Detection**: New assets trigger analysis
 2. **Pattern Recognition**: Compare with existing components
 3. **Smart Integration**: Reuse, extend, or create components
@@ -144,7 +151,7 @@ The design system in `src/components/design-system/` provides reusable component
 5. **Type Generation**: Create TypeScript types for new components
 6. **Documentation**: Auto-generate component documentation
 
-### 2.4  Submodules
+### 2.4 Submodules
 
 ```bash
 git submodule add https://github.com/noisegatemusicstudio/universal-appium2-framework submodules/appium-framework
@@ -155,7 +162,7 @@ Workflows reference test helpers & config from these submodules; keep them updat
 
 ---
 
-## 3  Automated CI Workflow (.github/workflows/copilot-agent.yml)
+## 3 Automated CI Workflow (.github/workflows/copilot-agent.yml)
 
 ### Trigger
 
@@ -176,11 +183,12 @@ Workflows reference test helpers & config from these submodules; keep them updat
 
 ---
 
-## 4  Copilot Agent Prompt (internal)
+## 4 Copilot Agent Prompt (internal)
 
 You are GitHub Copilot **Agent‑RN**. When new assets are added to `reference/<screen‑slug>/`:
 
 ### **Asset Processing Phase**
+
 1. **Analyze folder structure** (`screenshot/`, `components/`, `assets/`, `icons/`)
 2. **Identify asset types** and categorize each file
 3. **Compare with existing** design system components
@@ -193,6 +201,7 @@ You are GitHub Copilot **Agent‑RN**. When new assets are added to `reference/<
    - Update theme.ts with new design tokens
 
 ### **Code Generation Phase**
+
 1. **Infer UI** from `screenshot/full.png` + processed assets
 2. **Draft BDD** into `bdd/<screen‑slug>.feature` with 1‑3 core scenarios and edge cases
 3. Open PR `[BDD] <Screen>`. Do **not** proceed until the PR is merged & labelled `accepted-bdd`
@@ -209,6 +218,7 @@ You are GitHub Copilot **Agent‑RN**. When new assets are added to `reference/<
 8. After confirmation, push final commit & create PR `[feat] <Screen>` targeting `main`
 
 **Component Reuse Priority:**
+
 1. **First**: Check if existing component can be reused as-is
 2. **Second**: Extend existing component with new variant/props
 3. **Last Resort**: Create entirely new component
@@ -217,13 +227,13 @@ Strictly adhere to linting rules (`.eslintrc`), SonarQube gate, and test coverag
 
 ---
 
-## 5  Developer Workflow (You)
+## 5 Developer Workflow (You)
 
 ```text
 # 1. design & export from Uizard
 # 2. organize assets into folder structure:
 #    screenshot/ → full.png
-#    components/ → individual component images  
+#    components/ → individual component images
 #    assets/ → backgrounds, graphics, logos
 #    icons/ → all icon assets
 # 3. commit + push (triggers asset analysis)
@@ -249,7 +259,7 @@ npm run e2e:web       # Playwright
 
 ---
 
-## 6  Milestone Template
+## 6 Milestone Template
 
 | Milestone    | Screens                 | Target Date |
 | ------------ | ----------------------- | ----------- |

@@ -7,12 +7,12 @@ export const iconRegistry: Record<string, ImageSourcePropType> = {
   'nav-home': require('../../../assets/icons/nav-home.png'),
   'nav-profile': require('../../../assets/icons/nav-profile.png'),
   'nav-settings': require('../../../assets/icons/nav-settings.png'),
-  
+
   // Action icons
   'action-send': require('../../../assets/icons/action-send.png'),
   'action-edit': require('../../../assets/icons/action-edit.png'),
   'action-delete': require('../../../assets/icons/action-delete.png'),
-  
+
   // Status icons
   'status-online': require('../../../assets/icons/status-online.png'),
   'status-offline': require('../../../assets/icons/status-offline.png'),
@@ -38,15 +38,9 @@ const iconSizes = {
   xl: 48,
 };
 
-export const Icon: React.FC<IconProps> = ({
-  name,
-  size = 'md',
-  color,
-  style,
-  testID,
-}) => {
+export const Icon: React.FC<IconProps> = ({ name, size = 'md', color, style, testID }) => {
   const iconSource = iconRegistry[name];
-  
+
   if (!iconSource) {
     console.warn(`Icon "${name}" not found in icon registry`);
     return null;

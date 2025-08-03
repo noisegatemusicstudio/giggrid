@@ -1,14 +1,14 @@
 # Copilot Guide for Screen‑Driven Development
 
-> **Do not ov```
+> \*\*Do not ov```
 
-### 2.1  Mobile Design Library
+### 2.1 Mobile Design Library
 
-The design system in `src/components/design-system/` provides reusa| Milestone    | Screens                 | Target Date |
-| ------------ | ----------------------- | ----------- |
-| M0 – Setup   | Splash, Home stub       | 10 Aug 2025 |
-| M1 – Auth    | Welcome, Sign‑Up, Login | 17 Aug 2025 |
-| M2 – Profile | Profile, Settings       | 24 Aug 2025 |omponents that automatically inherit styling from Uizard assets:
+| The design system in `src/components/design-system/` provides reusa | Milestone               | Screens     | Target Date                                                      |
+| ------------------------------------------------------------------- | ----------------------- | ----------- | ---------------------------------------------------------------- |
+| M0 – Setup                                                          | Splash, Home stub       | 10 Aug 2025 |
+| M1 – Auth                                                           | Welcome, Sign‑Up, Login | 17 Aug 2025 |
+| M2 – Profile                                                        | Profile, Settings       | 24 Aug 2025 | omponents that automatically inherit styling from Uizard assets: |
 
 - **theme.ts**: Design tokens (colors, typography, spacing, shadows)
 - **Button.tsx**: Configurable button component with variants
@@ -17,12 +17,13 @@ The design system in `src/components/design-system/` provides reusa| Milestone  
 - **index.ts**: Consolidated exports
 
 When assets are placed in `reference/<screen-slug>/assets/`, the Agent-RN will:
+
 1. Analyze colors, fonts, and spacing from your designs
 2. Update the design system theme accordingly
 3. Generate new components if needed
 4. Ensure consistency across all screens
 
-### 2.2  Submodulesrite or remove any paragraphs in this guide unless the repository owner (you) explicitly instructs otherwise.**
+### 2.2 Submodulesrite or remove any paragraphs in this guide unless the repository owner (you) explicitly instructs otherwise.\*\*
 
 This document defines the non‑negotiable automation workflow that powers feature‑first React Native (mobile + web) development driven by Uizard screenshots.
 
@@ -34,7 +35,7 @@ This document defines the non‑negotiable automation workflow that powers featu
 2. **Drop assets** into `reference/<screen‑slug>/`:
    - `screenshot/full.png` – full‑page mock‑up.
    - `assets/` – icons, images, SVGs.
-3. A GitHub workflow (*Copilot Agent‑RN*) **auto‑generates a BDD **``** file** ➜ opens PR `[BDD] <Screen>`.
+3. A GitHub workflow (_Copilot Agent‑RN_) **auto‑generates a BDD **``** file** ➜ opens PR `[BDD] <Screen>`.
 4. **You review / edit / merge** the BDD PR (label `accepted-bdd`).
 5. Agent‑RN then **generates code + tests** ➜ PR `[feat] <Screen>`.
 6. **Before any commit is finalised** the following **gates must all pass and be approved by you**:
@@ -181,4 +182,3 @@ Add `[BDD]` and `[feat]` PRs to milestones for tracking.
 - **All pre‑commit gates are mandatory**.
 - **No automated commit proceeds without your manual OK**.
 - **This guide is immutable unless you direct otherwise.**
-

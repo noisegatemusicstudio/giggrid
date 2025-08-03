@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
-      
+
       - uses: dorny/paths-filter@v2
         id: changes
         with:
@@ -39,7 +39,7 @@ jobs:
               - 'bdd/**'
             src:
               - 'src/**'
-      
+
       - name: Extract screen slug from reference changes
         id: extract-screen
         if: steps.changes.outputs.reference == 'true'
@@ -58,16 +58,16 @@ jobs:
     if: needs.detect-changes.outputs.reference-changed == 'true' && needs.detect-changes.outputs.screen-slug != ''
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Generate BDD scenarios
         id: generate-bdd
         env:
@@ -77,7 +77,7 @@ jobs:
           echo "Generating BDD for screen: $SCREEN_SLUG"
           # This would call your BDD generation script
           # node scripts/generate-bdd.js "$SCREEN_SLUG"
-          
+
           # For now, create a placeholder BDD file
           mkdir -p bdd
           cat > "bdd/${SCREEN_SLUG}.feature" << 'EOF'
@@ -98,7 +98,7 @@ jobs:
               When I tap the main CTA button
               Then I should be navigated to the next screen
           EOF
-      
+
       - name: Create BDD Pull Request
         if: steps.generate-bdd.outcome == 'success'
         env:
@@ -108,18 +108,18 @@ jobs:
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
           # Create and switch to new branch
           BRANCH_NAME="bdd/$SCREEN_SLUG-$(date +%s)"
           git checkout -b "$BRANCH_NAME"
-          
+
           # Add and commit BDD file
           git add "bdd/${SCREEN_SLUG}.feature"
           git commit -m "feat: Generate BDD scenarios for $SCREEN_SLUG screen"
-          
+
           # Push branch
           git push origin "$BRANCH_NAME"
-          
+
           # Create PR
           gh pr create \
             --title "[BDD] $SCREEN_SLUG Screen Scenarios" \
@@ -134,16 +134,16 @@ jobs:
     if: needs.detect-changes.outputs.bdd-changed == 'true' && github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'accepted-bdd')
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Generate screen code and tests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -151,9 +151,9 @@ jobs:
           echo "Generating screen code and tests..."
           # This would call your code generation script
           # node scripts/generate-screen.js
-          
+
           echo "Code generation completed successfully"
-      
+
       - name: Create feature Pull Request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -161,18 +161,18 @@ jobs:
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
           # Create and switch to new branch
           BRANCH_NAME="feat/screen-implementation-$(date +%s)"
           git checkout -b "$BRANCH_NAME"
-          
+
           # Add all generated files
           git add src/
           git commit -m "feat: Generate screen implementation with tests"
-          
+
           # Push branch
           git push origin "$BRANCH_NAME"
-          
+
           # Create PR
           gh pr create \
             --title "[feat] Screen Implementation" \
@@ -186,28 +186,28 @@ jobs:
     if: startsWith(github.head_ref, 'feat/') || contains(github.event.pull_request.labels.*.name, 'feature')
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Run ESLint
         run: npm run lint
-      
+
       - name: Run Jest Tests
         run: npm run test:coverage
-      
+
       - name: SonarQube Scan
         if: env.SONAR_TOKEN != ''
         uses: sonarqube-quality-gate-action@master
         env:
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
-      
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
@@ -223,26 +223,26 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: |
           npm ci
           npm run submodule:update
-      
+
       - name: Run E2E tests - iOS
         if: matrix.platform == 'ios'
         run: npm run e2e:ios
-      
+
       - name: Run E2E tests - Android
         if: matrix.platform == 'android'
         run: npm run e2e:android
-      
+
       - name: Run E2E tests - Web
         if: matrix.platform == 'web'
         run: npm run e2e:web
@@ -253,14 +253,14 @@ jobs:
     if: startsWith(github.head_ref, 'feat/') || contains(github.event.pull_request.labels.*.name, 'feature')
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Wait for manual confirmation
         uses: actions/github-script@v7
         with:
           script: |
             const { owner, repo } = context.repo;
             const pr_number = context.payload.pull_request.number;
-            
+
             // Function to check for approval comment
             async function checkForApproval() {
               const comments = await github.rest.issues.listComments({
@@ -274,12 +274,12 @@ jobs:
                 comment.user.login === context.payload.pull_request.user.login
               );
             }
-            
+
             // Wait for approval with timeout
             const maxWaitTime = 24 * 60 * 60 * 1000; // 24 hours
             const checkInterval = 5 * 60 * 1000; // 5 minutes
             const startTime = Date.now();
-            
+
             while (Date.now() - startTime < maxWaitTime) {
               if (await checkForApproval()) {
                 console.log('Manual approval received!');
@@ -289,7 +289,7 @@ jobs:
               console.log('Waiting for manual approval...');
               await new Promise(resolve => setTimeout(resolve, checkInterval));
             }
-            
+
             // Send reminder if no approval after 24 hours
             await github.rest.issues.createComment({
               owner,
@@ -297,7 +297,7 @@ jobs:
               issue_number: pr_number,
               body: '⏰ Gentle reminder: Please review the changes and comment "✅ looks good" to proceed with the final commit.'
             });
-            
+
             throw new Error('Manual confirmation not received within 24 hours');
 
   final-commit:
@@ -306,18 +306,18 @@ jobs:
     if: success()
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Final commit and merge preparation
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "All gates passed and manual confirmation received"
           echo "Ready for merge!"
-          
+
           # Add final commit marker
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
           # Create final commit
           git commit --allow-empty -m "✅ All quality gates passed - Ready for merge"
           git push origin HEAD
